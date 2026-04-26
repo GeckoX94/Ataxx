@@ -107,7 +107,7 @@ Used for development and report generation. Supports full manual configuration o
 |--------|-----------|-------|-----------|
 | Easy   | Minimax   | 2     | v2        |
 | Medium | Minimax   | 3     | v3        |
-| Hard   | Minimax   | 4     | v4        |
+| Hard   | Alphabeta | 4     | v4        |
 
 ---
 
