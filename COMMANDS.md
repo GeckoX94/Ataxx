@@ -12,7 +12,7 @@ Launches the presentation-ready interface with two game modes and three difficul
 |--------|-----------|-------|-----------|
 | Easy   | Minimax   | 2     | v2        |
 | Medium | Minimax   | 3     | v3        |
-| Hard   | Minimax   | 4     | v4        |
+| Hard   | Alphabeta | 4     | v4        |
 
 **Modes:**
 - **AI vs AI** — configure a difficulty level for each player and watch the game.
