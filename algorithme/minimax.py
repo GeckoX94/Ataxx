@@ -5,13 +5,13 @@ Minimax search algorithm for Ataxx with transposition table and move capping.
 
 Player A (1) is the maximising player; Player B (-1) is the minimising player.
 
-Optimisations :
-- Transposition table (TT) : évite de ré-évaluer les positions déjà vues.
-- Move capping (TOP_K = 20) : seuls les TOP_K meilleurs coups (triés par
-  différence de pièces, O(49)) sont explorés à chaque nœud, ce qui réduit
-  le facteur de branchement de ~100 à 20 en milieu de partie.
-- Pre-sort rapide dans get_best_move : tri par somme du board (pas d'heuristique
-  complète), bien plus rapide que evaluate_position.
+Optimisations:
+- Transposition table (TT): avoids re-evaluating already-seen positions.
+- Move capping (TOP_K = 20): only the TOP_K best moves (sorted by piece
+  difference, O(49)) are explored at each node, reducing the branching
+  factor from ~100 to 20 in mid-game.
+- Fast pre-sort in get_best_move: sorted by board sum (no full heuristic),
+  much faster than calling evaluate_position on every candidate.
 """
 
 import math
@@ -21,27 +21,27 @@ from .heuristics import evaluate_position
 from utils.cache_key import tt_lookup, tt_store
 
 
-# Nombre maximum de coups explorés à chaque nœud interne.
+# Maximum number of moves explored at each internal node.
 TOP_K = 20
 
 
 def _fast_score(board, move, player):
-    """Score rapide d'un coup : différence de pièces après application (O(49))."""
+    """Fast move score: piece difference after applying the move (O(49))."""
     new_board = apply_move(board, move, player)
-    return sum(new_board)  # A=+1, B=-1 → somme = avantage de A
+    return sum(new_board)  # A=+1, B=-1 -> sum = A's advantage
 
 
 def _order_moves(moves, board, player):
     """
-    Trie les coups par score rapide et retourne les TOP_K meilleurs.
+    Sort moves by fast score and return the TOP_K best.
 
     Args:
-        moves:  Liste de coups légaux.
-        board:  État courant.
-        player: Joueur actif.
+        moves:  List of legal moves.
+        board:  Current board state.
+        player: Active player.
 
     Returns:
-        Liste des TOP_K meilleurs coups triés.
+        List of the TOP_K best moves, sorted.
     """
     scored = [(_fast_score(board, m, player), m) for m in moves]
     scored.sort(key=lambda x: x[0], reverse=(player == 1))
@@ -79,7 +79,7 @@ def minimax(board, depth, player, heuristic_type, passed=False):
         tt_store(board, player, value, "EXACT", depth)
         return value
 
-    # No moves available: the active player passes.
+    # No moves available: active player passes.
     if not moves:
         if passed:
             value = evaluate_position(board, player, heuristic_type, 0, len(opponent_moves))
@@ -89,7 +89,7 @@ def minimax(board, depth, player, heuristic_type, passed=False):
         tt_store(board, player, value, "EXACT", depth)
         return value
 
-    # Move capping : on ne garde que les TOP_K meilleurs coups.
+    # Move capping: keep only the TOP_K best moves.
     ordered_moves = _order_moves(moves, board, player)
 
     if player == 1:
@@ -136,9 +136,8 @@ def get_best_move(board, depth, player, heuristic_type):
     if not moves:
         return None
 
-    # Tri rapide par différence de pièces. En cas d'égalité de score,
-    # tie-breaking aléatoire pour éviter que la même partie se rejoue
-    # identiquement à chaque fois.
+    # Fast sort by piece difference. On score ties, random tie-breaking
+    # to avoid identical game replays.
     scored = [(_fast_score(board, m, player), m) for m in moves]
     scored.sort(key=lambda x: (x[0], random.random()), reverse=(player == 1))
     root_moves = [m for _, m in scored[:TOP_K]]
