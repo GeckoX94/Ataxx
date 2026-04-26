@@ -140,17 +140,18 @@ def is_valid_move(board, move, player):
 
 def count_valid_moves(board, player):
     """
-    Count legal move targets without building the full deduplicated list.
+    Fast approximate move count (utility / debugging helper).
 
-    Note: this raw counter may count the same destination multiple times when
-    it is reachable from several pieces. Use len(get_valid_moves(...)) for exact counts.
+    Counts reachable empty cells without deduplication — a destination reachable
+    from two different pieces is counted twice. Faster than get_valid_moves() but
+    only suitable for rough estimates; use len(get_valid_moves(...)) for exact counts.
 
     Args:
         board:  Board state (flat tuple or list-of-lists).
         player: Active player (1 or -1).
 
     Returns:
-        Integer count of reachable empty cells (with possible duplicates).
+        Integer count of reachable empty cells (may overcount).
     """
     flat = board if isinstance(board, tuple) else board_to_flat(board)
 

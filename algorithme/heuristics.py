@@ -90,12 +90,16 @@ def evaluate_position(board, player, heuristic_type, moves_count=0, opponent_mov
 
 def heuristic_v1(board, moves_a, moves_b):
     """
-    Basic heuristic: piece difference weighted by a symmetric mobility bonus.
+    Basic material heuristic: piece difference only.
+
+    Score = 5 * (pieces_A - pieces_B).
+    Sentinel values (+9999 / -9999) flag terminal positions.
+    Mobility parameters are accepted for interface uniformity but not used.
 
     Args:
         board:   Flat tuple of 49 elements.
-        moves_a: Number of legal moves available to player A.
-        moves_b: Number of legal moves available to player B.
+        moves_a: Number of legal moves available to player A (unused).
+        moves_b: Number of legal moves available to player B (unused).
 
     Returns:
         Numeric score from Player A's perspective.
@@ -151,15 +155,18 @@ def heuristic_v2(board, moves_a, moves_b):
 
 def heuristic_v3(board, moves_a, moves_b):
     """
-    Positional heuristic with local pressure.
+    Positional heuristic with offensive pressure bonus.
 
-    Extends v2 by counting adjacent enemy pieces: each enemy neighbour
-    represents a conversion threat and reduces the score accordingly.
+    Extends v2 by rewarding pieces that are adjacent to enemy pieces:
+    each adjacent enemy represents a conversion opportunity (the piece
+    can be captured on the next duplication). This is an offensive bonus,
+    not a threat penalty — pieces close to enemies are dangerous for them.
+    The same logic applies symmetrically for Player B (reducing the score).
 
     Args:
         board:   Flat tuple of 49 elements.
-        moves_a: Number of legal moves available to player A.
-        moves_b: Number of legal moves available to player B.
+        moves_a: Number of legal moves available to player A (unused).
+        moves_b: Number of legal moves available to player B (unused).
 
     Returns:
         Numeric score from Player A's perspective.
