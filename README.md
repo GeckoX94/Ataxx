@@ -2,9 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)
 ![Algorithm](https://img.shields.io/badge/Algorithm-Minimax%20%7C%20Alpha--Beta-orange)
-![License](https://img.shields.io/badge/License-MIT-green)
-![Tests](https://img.shields.io/badge/Tests-31%20passed-brightgreen)
-![University](https://img.shields.io/badge/Université-Paris%20Cité-red)
+
 
 Implementation of the **Ataxx 7x7** board game in Python with multiple AI difficulty levels and a tournament system.
 
