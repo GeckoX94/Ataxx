@@ -103,13 +103,12 @@ def apply_move(board, move, player):
 
     # Convert all adjacent enemy pieces.
     enemy = -player
-    for ddx in range(-1, 2):
-        for ddy in range(-1, 2):
-            nx, ny = x2 + ddx, y2 + ddy
-            if 0 <= nx < BOARD_SIZE and 0 <= ny < BOARD_SIZE:
-                idx = nx * BOARD_SIZE + ny
-                if lst[idx] == enemy:
-                    lst[idx] = player
+    for ddx, ddy in ADJ_DIRECTIONS:
+        nx, ny = x2 + ddx, y2 + ddy
+        if 0 <= nx < BOARD_SIZE and 0 <= ny < BOARD_SIZE:
+            idx = nx * BOARD_SIZE + ny
+            if lst[idx] == enemy:
+                lst[idx] = player
 
     return tuple(lst)
 

@@ -161,9 +161,11 @@ def main():
     # Matchups: progress from weakest to strongest to tell a clear story.
     matchups = [
         ("Random", "Easy"),     # Show that Easy > Random (search beats random play).
+        ("Random", "Medium"),   # Show that Medium > Random.
         ("Easy",   "Medium"),
         ("Medium", "Hard"),
         ("Easy",   "Hard"),     # Maximum gap for illustration.
+        ("Hard",   "Hard"),     # Symmetry check: should be ~50/50.
     ]
 
     print(f"\n{'#' * 60}")

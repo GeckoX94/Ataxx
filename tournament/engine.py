@@ -14,17 +14,17 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from game.board import create_board
 from game.rules import get_valid_moves, apply_move
 from algorithme.minimax import get_best_move
-from algorithme.alphabeta import get_best_move_alpha_beta
+from algorithme.alphabeta import get_best_move_alpha_beta, clear_killers
 from utils.random_ai import get_random_move
 from utils.cache_key import clear_all_caches
 
 
 # Official difficulty levels used in both the main interface and the tournament.
 LEVELS = {
-    "Random": {"algo": "random",   "depth": 0, "heuristic": None},
-    "Easy":   {"algo": "minimax",  "depth": 2, "heuristic": "v2"},
-    "Medium": {"algo": "minimax",  "depth": 3, "heuristic": "v3"},
-    "Hard":   {"algo": "minimax",  "depth": 4, "heuristic": "v4"},
+    "Random": {"algo": "random",    "depth": 0, "heuristic": None},
+    "Easy":   {"algo": "minimax",   "depth": 2, "heuristic": "v2"},
+    "Medium": {"algo": "minimax",   "depth": 3, "heuristic": "v3"},
+    "Hard":   {"algo": "alphabeta", "depth": 4, "heuristic": "v4"},
 }
 
 
@@ -66,6 +66,7 @@ def play_one_game(config_a, config_b, first_player=1, verbose=False):
         winner = 1 (Player A), -1 (Player B), or 0 (draw).
     """
     clear_all_caches()
+    clear_killers()
     board = create_board()
     current_player = first_player
     pass_count = 0

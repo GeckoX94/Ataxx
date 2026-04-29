@@ -1,5 +1,11 @@
 # Ataxx 7x7
 
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)
+![Algorithm](https://img.shields.io/badge/Algorithm-Minimax%20%7C%20Alpha--Beta-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Tests](https://img.shields.io/badge/Tests-31%20passed-brightgreen)
+![University](https://img.shields.io/badge/Université-Paris%20Cité-red)
+
 Implementation of the **Ataxx 7x7** board game in Python with multiple AI difficulty levels and a tournament system.
 
 ## Table of contents
@@ -13,6 +19,8 @@ Implementation of the **Ataxx 7x7** board game in Python with multiple AI diffic
 - [Algorithms](#algorithms)
 - [Tournament](#tournament)
 - [Tests](#tests)
+- [Commands reference](#commands-reference)
+- [Author](#author)
 
 ---
 
@@ -23,8 +31,7 @@ Ataxx is a two-player combinatorial strategy game played on a 7x7 grid. Players 
 This implementation provides:
 
 - A complete game engine with rule validation
-- Three AI difficulty levels built on Minimax with heuristic evaluation
-- An additional Alpha-Beta algorithm with Iterative Deepening (available in `evaluation.py`)
+- Three AI difficulty levels built on Minimax and Alpha-Beta with heuristic evaluation
 - Four progressive evaluation heuristics (v1 to v4)
 - A tournament system with statistics, CSV export, and charts
 - A full unit test suite
@@ -99,15 +106,17 @@ Used for development and report generation. Supports full manual configuration o
 - `tech`: shows algorithm details and per-move timing.
 - `clean`: minimal output.
 
+See [`COMMANDS.md`](COMMANDS.md) for a complete command reference and all available options.
+
 ---
 
 ## Difficulty levels
 
-| Level  | Algorithm | Depth | Heuristic |
-|--------|-----------|-------|-----------|
-| Easy   | Minimax   | 2     | v2        |
-| Medium | Minimax   | 3     | v3        |
-| Hard   | Alphabeta | 4     | v4        |
+| Level  | Algorithm  | Depth | Heuristic |
+|--------|------------|-------|-----------|
+| Easy   | Minimax    | 2     | v2        |
+| Medium | Minimax    | 3     | v3        |
+| Hard   | Alpha-Beta | 4     | v4        |
 
 ---
 
@@ -117,12 +126,12 @@ Used for development and report generation. Supports full manual configuration o
 Ataxx/
 ├── Ataxx.py                   # Main entry point
 ├── evaluation.py              # Modular interface for testing and development
-├── COMMANDS.md                # Command reference
+├── COMMANDS.md                # Complete command reference
 ├── README.md
 ├── algorithme/
 │   ├── __init__.py
 │   ├── minimax.py             # Minimax with transposition table
-│   ├── alphabeta.py           # Minimax + Alpha-Beta + Iterative Deepening
+│   ├── alphabeta.py           # Alpha-Beta + Iterative Deepening + Killer moves
 │   └── heuristics.py          # Heuristics v1 to v4
 ├── config/
 │   ├── __init__.py
@@ -167,7 +176,7 @@ Advanced optimisations built on top of Minimax:
 
 - **Alpha-Beta pruning**: skips branches that cannot affect the final result.
 - **Iterative Deepening**: searches at depth 1, 2, ..., max_depth in sequence. Each pass fills the transposition table and improves move ordering for the next.
-- **Killer moves**: moves that recently caused a beta cut-off are tried first at the same depth in sibling nodes.
+- **Killer moves**: moves that recently caused a cut-off are tried first at the same depth in sibling nodes.
 - **Move ordering**: non-killer moves are sorted by quick heuristic evaluation before the recursive call.
 
 File: [`algorithme/alphabeta.py`](algorithme/alphabeta.py)
@@ -178,9 +187,9 @@ Four progressive evaluation functions, each building on the previous:
 
 | Version | Description |
 |---------|-------------|
-| v1 | Piece difference + mobility bonus |
+| v1 | Piece difference only (5 x (pieces_A - pieces_B)) |
 | v2 | v1 + positional weights (central control) |
-| v3 | v2 + local pressure (adjacent enemy threats) |
+| v3 | v2 + local pressure (offensive bonus for pieces adjacent to enemies) |
 | v4 | v3 + clustering bonus + game-phase weighting |
 
 File: [`algorithme/heuristics.py`](algorithme/heuristics.py)
@@ -211,17 +220,19 @@ python3 tournament/run_tournament.py --games 20
 
 The tournament runs the following matchups in order:
 
-1. **Random vs Easy** — demonstrates that Minimax beats random play.
-2. **Easy vs Medium**
-3. **Medium vs Hard**
-4. **Easy vs Hard** — maximum difficulty gap.
+1. **Random vs Easy** - demonstrates that Minimax beats random play.
+2. **Random vs Medium**
+3. **Easy vs Medium**
+4. **Medium vs Hard**
+5. **Easy vs Hard** - maximum difficulty gap.
+6. **Hard vs Hard** - symmetry check.
 
 ### Outputs
 
 - Console summary table with win rates and average scores.
-- `tournament_results.csv` — detailed per-matchup data.
-- `tournament_results.png` — bar charts of win rates and average scores.
-- `tournament_convergence.png` — Monte Carlo convergence of cumulative scores.
+- `tournament_results.csv` - detailed per-matchup data.
+- `tournament_results.png` - bar charts of win rates and average scores.
+- `tournament_convergence.png` - Monte Carlo convergence of cumulative scores.
 
 ---
 
@@ -246,3 +257,17 @@ python3 -m pytest test/test_rules.py -v --tb=short
 ```
 
 The test suite covers: board creation, move generation, move application, piece conversion, end-of-game detection, piece counting, and board format conversions.
+
+---
+
+## Commands reference
+
+See [`COMMANDS.md`](COMMANDS.md) for the full list of available commands and options.
+
+---
+
+## Author
+
+**[RABBANI Nathan](https://github.com/GeckoX94/Ataxx)**
+
+*Universite Paris Cite - 2025-2026*

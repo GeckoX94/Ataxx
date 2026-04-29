@@ -121,7 +121,7 @@ def heuristic_v1(board, moves_a, moves_b):
 
 def heuristic_v2(board, moves_a, moves_b):
     """
-    Positional heuristic: weighted piece placement, mobility, and piece count bonus.
+    Positional heuristic: weighted piece placement and piece count bonus.
 
     Each piece contributes its positional weight (center > edges), rewarding
     central control in addition to raw piece count.
@@ -207,7 +207,7 @@ def heuristic_v4(board, moves_a, moves_b):
     - Positional weights (central control).
     - Local pressure (adjacent enemy threats).
     - Clustering bonus (allied pieces grouped together are harder to convert).
-    - Game-phase adaptation (mobility matters more early; piece count matters more late).
+    - Game-phase adaptation (piece count bonus increases as the board fills up).
 
     Args:
         board:   Flat tuple of 49 elements.

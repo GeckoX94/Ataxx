@@ -5,7 +5,7 @@ Zobrist hashing and transposition table for Ataxx.
 
 The board (flat tuple of 49 elements) is hashed using Zobrist hashing: each
 (cell_index, cell_value) pair is XOR-ed with a random 64-bit integer, producing
-a compact hash that changes incrementally when a move is made. The transposition
+a compact 64-bit integer key suitable for use as a transposition table key. The transposition
 table maps (hash, player) keys to (score, flag, depth) entries.
 """
 
@@ -72,8 +72,8 @@ def tt_store(board, player, score, flag, depth):
     """
     Store a position evaluation in the transposition table.
 
-    An existing entry is replaced only if the new search depth is greater
-    (deeper results are more reliable).
+    An existing entry is replaced only if the new search depth is greater or equal
+    (deeper results are more reliable; equal depth refreshes the stored flag).
 
     Args:
         board:  Flat tuple of 49 elements.

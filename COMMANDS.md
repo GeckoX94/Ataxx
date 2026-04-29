@@ -52,7 +52,7 @@ def get_test_matchup():
 |------------|--------------------------------|
 | `type`     | `"ai"` / `"human"`            |
 | `algo`     | `"minimax"` / `"alphabeta"`   |
-| `depth`    | Integer (1-7 for alphabeta, 1-3 for minimax) |
+| `depth`    | Integer (1-7 for both minimax and alphabeta) |
 | `heuristic`| `"v1"` / `"v2"` / `"v3"` / `"v4"` |
 
 ---

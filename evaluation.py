@@ -11,7 +11,7 @@ Usage:
 
 from game import create_board, print_board, get_valid_moves, apply_move
 from algorithme.minimax import get_best_move
-from algorithme.alphabeta import get_best_move_alpha_beta
+from algorithme.alphabeta import get_best_move_alpha_beta, clear_killers
 from utils.timer import Timer
 from config.player_config import setup_player
 from config.test_config import get_test_matchup
@@ -28,7 +28,7 @@ def play_game():
     predefined matchup from test_config.py is used.
     """
     clear_all_caches()
-
+    clear_killers()
     board = create_board()
     current_player = 1
     pass_count = 0
